@@ -2,8 +2,19 @@ const Tour = require('../models/Tour.js')
 
 exports.getTours =  async(req, res, next)=> {
     try {
-      const {fields} = req.query;
-      const tour = await Tour.find({}).sort({fields: 1});
+      const filters = {...req.query};
+      const queries = {};
+
+      if(req.query.sort){
+        const sortBy = req.query.sort.split(',').join(' ');
+        queries.sortBy = sortBy;
+      }
+
+      if(req.query.fields){
+        const fileds = req.query.fields.split(',').join(' ');
+        queries.fields=  fileds;
+      }
+      const tour = await Tour.find({}).sort(queries.sortBy).select(queries.fields);
       res.status(200).json({
         status:'Success',
         data: tour,
