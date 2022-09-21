@@ -14,7 +14,15 @@ exports.getTours =  async(req, res, next)=> {
         const fileds = req.query.fields.split(',').join(' ');
         queries.fields=  fileds;
       }
-      const tour = await Tour.find({}).sort(queries.sortBy).select(queries.fields);
+
+      if(req.query.page){
+        const {page=1, limit=10} = req.query;
+
+        const skip = (page -1)*parseInt(limit);
+        queries.skip = skip;
+        queries.limit = parseInt(limit);
+      }
+      const tour = await Tour.find({}).skip(queries.skip).limit(queries.limit).sort(queries.sortBy).select(queries.fields);
       res.status(200).json({
         status:'Success',
         data: tour,
