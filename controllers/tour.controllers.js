@@ -3,7 +3,6 @@ const Tour = require('../models/Tour.js')
 exports.getTours =  async(req, res, next)=> {
     try {
       const {fields} = req.query;
-      console.log(fields)
       const tour = await Tour.find({}).sort({fields: 1});
       res.status(200).json({
         status:'Success',
@@ -90,7 +89,7 @@ exports.createTour =  async(req, res, next)=> {
 exports.updateTour =  async(req, res, next)=> {
     try {
       const {id} = req.params;
-      const result = await Tour.findByIdAndDelete({_id: id}, {$set: req.body}, {runValidators: true, new: true})
+      const result = await Tour.updateOne({_id: id}, {$set: req.body}, {runValidators: true, new: true})
 
       res.status(200).json({
         status: 'success',

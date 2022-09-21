@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const tourSchema = mongoose.Schema({
     tourName: {
       type: String,
-      requited: [true, 'Please provide a tour name as tourName'],
+      required: [true, 'Please provide a tour name as tourName'],
       trim: true,
       unique: [true, 'Name is not unique'],
       minLength: [3, 'Tour name must name at least 3 characters'],
